@@ -17,7 +17,7 @@ while true
   price = gets.to_f
   puts "Введите кол-во товара:"
   amount = gets.to_f
-  products[name] = {:price => price, :amount => amount, :summa => price*amount}
+  products[name] = {price: price, amount: amount, summa: price*amount}
 end
 
 summa_total = 0
