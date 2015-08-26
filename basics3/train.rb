@@ -25,8 +25,6 @@ class Train
     @type = type
     @wagons = count_wagons
     @speed = 0
-    @route = nil
-    @station = nil
   end
 
   def route=(route)
@@ -64,19 +62,15 @@ class Train
   def add_wagon
     if @speed==0
       @wagons+=1
-      true
-    else
-      false
     end
+    @wagons
   end
 
   def del_wagon
     if @speed==0
       @wagons-=1
-      true
-    else
-      false
     end
+    @wagons
   end
 
   def terminal_station?

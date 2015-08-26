@@ -41,7 +41,7 @@ class RailwayStation
     s
   end
 
-  def send(train)
+  def send_train(train)
     if @trains.include?(train)
       @trains.delete train
       true

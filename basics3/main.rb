@@ -39,12 +39,12 @@ while ekb_train.go
   puts " Current station: #{ekb_train.station} (last:'#{ekb_train.prev_station}', next:'#{ekb_train.next_station}')"
   puts "\t#{ekb_train.station.get_formatted_trains}"
   if ekb_train.station == volgograd_st
-    puts "\t[service] Train '#{ekb_train}' add wagon '#{ekb_train.add_wagon ? "true" : "false"}', wagons: #{ekb_train.wagons}, speed: #{ekb_train.speed}"
+    puts "\t[service] Train '#{ekb_train}' add wagon: #{ekb_train.add_wagon}, speed: #{ekb_train.speed}"
   end
 end
 puts "#{ekb_train.terminal_station? ? "Terminal" : "Current"} station: #{ekb_train.station} (last:'#{ekb_train.prev_station}', next:'#{ekb_train.next_station}')"
-puts "\t[service] Train '#{ekb_train}' add wagon '#{ekb_train.add_wagon ? "true" : "false"}', wagons: #{ekb_train.wagons}, speed: #{ekb_train.speed}"
-puts "\t[service] Train '#{ekb_train}' delete wagon '#{ekb_train.del_wagon ? "true" : "false"}', wagons: #{ekb_train.wagons}, speed: #{ekb_train.speed}"
+puts "\t[service] Train '#{ekb_train}' add wagon: #{ekb_train.add_wagon}, speed: #{ekb_train.speed}"
+puts "\t[service] Train '#{ekb_train}' delete wagon: #{ekb_train.del_wagon}, speed: #{ekb_train.speed}"
 
 puts "", "="*10, "Show statistics by trains on stations", "-"*10
 route.stations.each do |station|

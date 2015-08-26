@@ -23,10 +23,10 @@ class Route
     self
   end
   def first
-    @stations[0]
+    @stations.first
   end
   def last
-    @stations[-1]
+    @stations.last
   end
   def next(station)
     if last!=station
