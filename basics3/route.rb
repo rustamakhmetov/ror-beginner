@@ -6,7 +6,7 @@
 # Может удалять станцию из списка
 # Может выводить список всех станций по-порядку от начальной до конечной
 
-load 'railway_station.rb'
+require_relative 'railway_station'
 
 class Route
   attr_reader :stations

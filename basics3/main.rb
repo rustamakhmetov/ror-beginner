@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 # -*- encoding: utf-8 -*-
 
-load 'train.rb'
-load 'railway_station.rb'
-load 'route.rb'
+require_relative 'train'
+require_relative 'railway_station'
+require_relative 'route'
 
 ekb_train = Train.new(:passenger, 7) #  Train::PASSENGER
 spb_train = Train.new(:cargo, 20)
