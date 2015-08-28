@@ -10,6 +10,8 @@
 require_relative 'train'
 
 class RailwayStation
+  attr_reader :name
+
   def initialize(name)
     @name = name
     @trains = []
@@ -24,7 +26,7 @@ class RailwayStation
   end
 
   def get_formatted_trains_by_type(sep="\n")
-    trains_by_type = {cargo: 0, passenger:0}
+    trains_by_type = {Train::CARGO => 0, Train::PASSANGER => 0}
     @trains.each {|train| trains_by_type[train.type]+=1}
     s = []
     trains_by_type.each do |k,v|
@@ -34,13 +36,19 @@ class RailwayStation
   end
 
   def get_formatted_trains()
-    s = ""
-    @trains.each_with_index do |train, i|
-      s+= "#{i+1}. Train '#{train}', speed: #{train.speed}, wagons: #{train.wagons}\n"
+    if @trains.any?
+      s = ""
+      @trains.each_with_index do |train, i|
+        s+= "#{i+1}. Train '#{train}', speed: #{train.speed}, wagons: #{train.wagons.size}\n"
+      end
+    else
+      s = "On station '#{self}' not trains"
     end
     s
   end
-
+  def trains?
+    @trains.any?
+  end
   def send_train(train)
     if @trains.include?(train)
       @trains.delete train

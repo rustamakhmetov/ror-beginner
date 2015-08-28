@@ -12,24 +12,34 @@
 # Принимать маршрут следования
 # Перемещаться между станциями, указанными в маршруте.
 # Показывать предыдущую станцию, текущую, следующую, на основе маршрута
+require_relative 'passanger_wagon'
+require_relative 'cargo_wagon'
 
 
 class Train
-  #CARGO = :cargo
-  #PASSENGER #:passenger
+  CARGO = :cargo
+  PASSANGER = :passanger
 
   attr_accessor :speed
   attr_reader :wagons, :type, :route, :station
 
-  def initialize(type=:passenger, count_wagons)
+  def initialize(type, count_wagons, number)
     @type = type
-    @wagons = count_wagons
+    @wagons = []
     @speed = 0
+    @number = number
+    (1..count_wagons).each { |i| add_wagon }
   end
 
   def route=(route)
     @route = route
     @station = route.first
+    @station << self
+  end
+
+  def station=(station)
+    @station >> self if @station
+    @station = station
     @station << self
   end
 
@@ -59,18 +69,19 @@ class Train
     @speed = 0
   end
 
-  def add_wagon
+  def add_wagon(count=1)
     if @speed==0
-      @wagons+=1
+      count.times { @wagons << eval("#{@type.capitalize}Wagon.new") }
     end
-    @wagons
+    @wagons.size
   end
 
-  def del_wagon
+  def del_wagon(count=1)
     if @speed==0
-      @wagons-=1
+      count = @wagons.size if count>@wagons.size
+      count.times { @wagons.pop }
     end
-    @wagons
+    @wagons.size
   end
 
   def terminal_station?
@@ -78,7 +89,7 @@ class Train
   end
 
   def to_s
-    @type.to_s.capitalize
+    "#{@type.to_s.capitalize} N#{@number} (#{@wagons.size} wag.)"
   end
 end
 
