@@ -12,12 +12,7 @@ class Main
   def initialize
     @trains = Hash.new
     @stations = []
-    trains_types_str = []
-    Train.constants.each_with_index do |c, i|
-      @trains[c]=[]
-      trains_types_str << "#{i}. #{c.to_s}"
-    end
-    @trains_types_str = trains_types_str.join("\n")
+    fill_types_str
   end
 
   def start
@@ -48,6 +43,21 @@ class Main
   end
 
   private
+
+  def fill_types_str
+    trains_types_str = []
+    Train.constants.each_with_index do |c, i|
+      @trains[c]=[]
+      trains_types_str << "#{i}. #{c.to_s}"
+    end
+    @trains_types_str = trains_types_str.join("\n")
+
+    wagons_types_str = []
+    Wagon.constants.each_with_index do |c, i|
+      wagons_types_str << "#{i}. #{c.to_s}"
+    end
+    @wagons_types_str = wagons_types_str.join("\n")
+  end
 
   def show_menu
     system("clear")
@@ -89,9 +99,9 @@ class Main
   def add_train
     train_type = select_type_train
     if train_type
-      wagons_count = input_wagons_count
+      #wagons_count = input_wagons_count
       num = @trains[train_type].size+1
-      @train = eval("#{train_type.to_s.downcase.capitalize}Train.new(num, wagons_count)")
+      @train = eval("#{train_type.to_s.downcase.capitalize}Train.new(num)")
       @trains[train_type] << @train
       print "Added train '#{@train}'."
       unless @station.nil?
@@ -166,15 +176,22 @@ class Main
     end
     train
   end
+  def select_type_wagon
+    puts "Select type wagon:\n#{@wagons_types_str}"
+    Wagon.constants[gets.to_i]
+  end
   def modify_train(modify_id)
     if @train
-      wagons_count = input_wagons_count
-      if wagons_count
+      wagon_type = select_type_wagon
+      if wagon_type
+        wagon = eval("#{wagon_type.downcase.capitalize}Wagon.new")
         if modify_id==3
-          @train.add_wagon(wagons_count)
+          @train.add_wagon(wagon)
         else
-          @train.del_wagon(wagons_count)
+          @train.del_wagon(wagon)
         end
+      else
+        puts "Invalid select"
       end
     else
       puts "Please select or add train"

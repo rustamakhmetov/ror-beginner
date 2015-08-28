@@ -23,12 +23,12 @@ class Train
   attr_accessor :speed
   attr_reader :wagons, :type, :route, :station
 
-  def initialize(type, count_wagons, number)
+  def initialize(type, number)
     @type = type
     @wagons = []
     @speed = 0
     @number = number
-    (1..count_wagons).each { |i| add_wagon }
+    #(1..count_wagons).each { |i| add_wagon }
   end
 
   def route=(route)
@@ -69,17 +69,16 @@ class Train
     @speed = 0
   end
 
-  def add_wagon(count=1)
-    if @speed==0
-      count.times { @wagons << eval("#{@type.capitalize}Wagon.new") }
+  def add_wagon(wagon)
+    if @speed==0 && wagon.type==@type
+      @wagons << wagon
     end
     @wagons.size
   end
 
-  def del_wagon(count=1)
+  def del_wagon(wagon)
     if @speed==0
-      count = @wagons.size if count>@wagons.size
-      count.times { @wagons.pop }
+      @wagons.delete_at(@wagons.find_index{|x| x.type == wagon.type} || @wagons.size)
     end
     @wagons.size
   end

@@ -3,7 +3,7 @@
 require_relative 'train'
 
 class PassangerTrain < Train
-  def initialize(number, count_wagons)
-    super(Train::PASSANGER, count_wagons, number)
+  def initialize(number)
+    super(Train::PASSANGER, number)
   end
 end
