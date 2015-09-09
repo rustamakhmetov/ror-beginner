@@ -213,6 +213,21 @@ end
 
 
 if __FILE__== $0
+=begin
+  ekb_train = PassangerTrain.new(7)  # Train.new(:passenger, 7) #  Train::PASSENGER
+  puts PassangerTrain.instances
+  ekb_train1 = PassangerTrain.new(8)  # Train.new(:passenger, 7) #  Train::PASSENGER
+  puts PassangerTrain.instances
+  spb_train = CargoTrain.new(20)
+  puts CargoTrain.instances
+  spb_train1 = CargoTrain.new(21)
+  puts CargoTrain.instances
+
+  ekb_st = RailwayStation.new("Ekb")
+  #mos_st = RailwayStation.new("Moscow")
+  puts RailwayStation.instances
+  exit
+=end
   main = Main.new
   main.start
 end

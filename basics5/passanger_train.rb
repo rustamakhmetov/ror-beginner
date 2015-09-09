@@ -12,4 +12,5 @@ if __FILE__ == $0
   p1 = PassangerTrain.new(2)
   p1.manufacturer = "Riga"
   puts p1.manufacturer
+  puts PassangerTrain.instances
 end

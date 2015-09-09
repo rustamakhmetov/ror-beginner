@@ -8,9 +8,12 @@
 #   Может отправлять поезда (при этом, поезд удаляется из списка поездов, находящихся на станции).
 
 require_relative 'train'
+require_relative 'instance_counter'
 
 class RailwayStation
   attr_reader :name
+
+  include InstanceCounter
 
   @@stations = []
 
@@ -18,6 +21,7 @@ class RailwayStation
     @name = name
     @trains = []
     @@stations << name
+    register_instance
   end
 
   def self.all()

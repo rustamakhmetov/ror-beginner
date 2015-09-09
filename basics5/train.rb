@@ -15,12 +15,14 @@
 require_relative 'passanger_wagon'
 require_relative 'cargo_wagon'
 require_relative 'manufacturer'
+require_relative 'instance_counter'
 
 
 class Train
   CARGO = :cargo
   PASSANGER = :passanger
 
+  include InstanceCounter
   include Manufacturer
 
   attr_accessor :speed
@@ -34,6 +36,7 @@ class Train
     @speed = 0
     @number = number
     @@trains[number] = self
+    register_instance
     #(1..count_wagons).each { |i| add_wagon }
   end
 
@@ -108,4 +111,6 @@ if __FILE__ == $0
   puts t1.manufacturer
   puts Train.find(1) # output: Cargo N1 (0 wag.)
   puts Train.find(0) # output; nil
+  t2 = Train.new(Train::CARGO, 2)
+  puts "Train instances: #{Train.instances}"
 end
