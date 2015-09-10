@@ -106,6 +106,12 @@ class Train
     @wagons.size
   end
 
+  def update!(&block)
+    if block_given?
+      @wagons.each {|wagon| yield(wagon)}
+    end
+  end
+
   def terminal_station?
     station==route.last
   end
@@ -130,6 +136,9 @@ if __FILE__ == $0
     #t0 = Train.new(:CARGO, "a33Z-45")
     t1 = Train.new(Train::CARGO, "a3Z-45")
     t1.manufacturer = "R1"
+    t1.add_wagon(CargoWagon.new)
+    t1.add_wagon(CargoWagon.new)
+    t1.update! {|x| puts x}
     puts t1.manufacturer
     t2 = Train.new(Train::CARGO, "a3Z-45")
     puts Train.find(1) # output: Cargo N1 (0 wag.)
