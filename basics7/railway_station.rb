@@ -77,6 +77,12 @@ class RailwayStation
     end
   end
 
+  def update!(&block)
+    if block_given?
+      @trains.each {|train| yield(train)}
+    end
+  end
+
   def to_s
     @name
   end
@@ -96,4 +102,7 @@ if __FILE__== $0
   r2 = RailwayStation.new("M24")
   r3 = RailwayStation.new("M34")
   RailwayStation.all
+  r1 << Train.new(Train::PASSANGER, "234-56")
+  r1 << Train.new(Train::CARGO, "2r4-56")
+  r1.update! {|x| puts x}
 end
