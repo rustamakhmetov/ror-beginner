@@ -2,6 +2,7 @@
 
 require_relative 'manufacturer'
 require_relative 'instance_counter'
+require_relative 'user_exception'
 
 class Wagon
   CARGO = :cargo
@@ -14,9 +15,25 @@ class Wagon
 
   def initialize(type)
     @type = type
+    validate!
     register_instance
   end
+
+  def valid?
+    validate!
+  rescue
+    false
+  end
+
   def to_s
     "#{@type.to_s.capitalize}Wagon"
+  end
+
+  protected
+
+  def validate!
+    raise UserException, "Wagon type can't be nil" if type.nil?
+    raise UserException, "Invalid wagon type" unless [CARGO, PASSANGER].include?(type)
+    true
   end
 end

@@ -9,6 +9,7 @@
 
 require_relative 'train'
 require_relative 'instance_counter'
+require_relative 'user_exception'
 
 class RailwayStation
   attr_reader :name
@@ -21,11 +22,18 @@ class RailwayStation
     @name = name
     @trains = []
     @@stations << name
+    validate!
     register_instance
   end
 
   def self.all()
     puts @@stations.join("\n")
+  end
+
+  def valid?
+    validate!
+  rescue
+    false
   end
 
   def <<(train)
@@ -73,11 +81,19 @@ class RailwayStation
     @name
   end
 
+  protected
+
+  def validate!
+    raise UserException, "Railway station name can't be nil" if name.nil?
+    raise UserException, "Railway station name should be at least 3 symbols" if name.length < 3
+    true
+  end
+
 end
 
 if __FILE__== $0
-  r1 = RailwayStation.new("M1")
-  r2 = RailwayStation.new("M2")
-  r3 = RailwayStation.new("M3")
+  r1 = RailwayStation.new("M12")
+  r2 = RailwayStation.new("M24")
+  r3 = RailwayStation.new("M34")
   RailwayStation.all
 end

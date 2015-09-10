@@ -17,26 +17,30 @@ class Main
 
   def start
     while true do
-      show_menu
-      menu_id = gets.to_i
-      case menu_id
-        when 1
-          add_station
-        when 2
-          add_train
-        when 3..4
-          modify_train(menu_id)
-        when 5
-          place_train_on_station
-        when 6
-          show_stations_with_select
-        when 7
-          show_trains_on_station
-        when 8
-          puts "done"
-          break
-        else
-          puts "Invalid select"
+      begin
+        show_menu
+        menu_id = gets.to_i
+        case menu_id
+          when 1
+            add_station
+          when 2
+            add_train
+          when 3..4
+            modify_train(menu_id)
+          when 5
+            place_train_on_station
+          when 6
+            show_stations_with_select
+          when 7
+            show_trains_on_station
+          when 8
+            puts "done"
+            break
+          else
+            puts "Invalid select"
+        end
+      rescue UserException => e
+        puts e.message
       end
       sleep 1
     end

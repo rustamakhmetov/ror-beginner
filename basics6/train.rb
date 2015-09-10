@@ -16,11 +16,12 @@ require_relative 'passanger_wagon'
 require_relative 'cargo_wagon'
 require_relative 'manufacturer'
 require_relative 'instance_counter'
-
+require_relative 'user_exception'
 
 class Train
   CARGO = :cargo
   PASSANGER = :passanger
+  NUMBER_FORMAT = /^[a-z\d]{3}-{0,1}[a-z\d]{2}$/i
 
   include InstanceCounter
   include Manufacturer
@@ -35,9 +36,17 @@ class Train
     @wagons = []
     @speed = 0
     @number = number
+    raise UserException, "Train with number #{number} is exists" if @@trains.include?(number)
     @@trains[number] = self
     register_instance
+    validate!
     #(1..count_wagons).each { |i| add_wagon }
+  end
+
+  def valid?
+    validate!
+  rescue
+    false
   end
 
   def self.find(train_id)
@@ -83,7 +92,8 @@ class Train
   end
 
   def add_wagon(wagon)
-    if @speed==0 && wagon.type==@type
+    raise UserException, "Type of wagon does not match the type of train" if wagon.type!=@type
+    if @speed==0
       @wagons << wagon
     end
     @wagons.size
@@ -103,14 +113,30 @@ class Train
   def to_s
     "#{@type.to_s.capitalize} N#{@number} (#{@wagons.size} wag.)"
   end
+
+  protected
+
+  def validate!
+    raise UserException, "Train type can't be nil" if @type.nil?
+    raise UserException, "Invalid train type" unless [CARGO, PASSANGER].include?(@type)
+    raise UserException, "Train number can't be nil" if @number.nil?
+    raise UserException, "Train number has invalid format" if @number !~ NUMBER_FORMAT
+    true
+  end
 end
 
 if __FILE__ == $0
-  t1 = Train.new(Train::CARGO, 1)
-  t1.manufacturer = "R1"
-  puts t1.manufacturer
-  puts Train.find(1) # output: Cargo N1 (0 wag.)
-  puts Train.find(0) # output; nil
-  t2 = Train.new(Train::CARGO, 2)
-  puts "Train instances: #{Train.instances}"
+  begin
+    #t0 = Train.new(:CARGO, "a33Z-45")
+    t1 = Train.new(Train::CARGO, "a3Z-45")
+    t1.manufacturer = "R1"
+    puts t1.manufacturer
+    t2 = Train.new(Train::CARGO, "a3Z-45")
+    puts Train.find(1) # output: Cargo N1 (0 wag.)
+    puts Train.find(0) # output; nil
+    t2 = Train.new(Train::CARGO, "d45ku")
+    puts "Train instances: #{Train.instances}"
+  rescue UserException => e
+    puts e.message
+  end
 end
