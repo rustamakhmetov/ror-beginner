@@ -8,9 +8,9 @@ class PassangerTrain < Train
   end
 end
 
-if __FILE__ == $0
+if __FILE__ == $PROGRAM_NAME
   p1 = PassangerTrain.new(2)
-  p1.manufacturer = "Riga"
+  p1.manufacturer = 'Riga'
   puts p1.manufacturer
   puts PassangerTrain.instances
 end

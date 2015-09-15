@@ -1,0 +1,24 @@
+# Offense count: 13
+Style/Documentation:
+  Exclude:
+    - 'cargo_train.rb'
+    - 'cargo_wagon.rb'
+    - 'instance_counter.rb'
+    - 'main.rb'
+    - 'manufacturer.rb'
+    - 'passanger_train.rb'
+    - 'passanger_wagon.rb'
+    - 'railway_station.rb'
+    - 'route.rb'
+    - 'train.rb'
+    - 'wagon.rb'
+
+# Offense count: 23
+Style/AsciiComments:
+  Exclude:
+    - 'railway_station.rb'
+    - 'route.rb'
+    - 'train.rb'
+
+Metrics/LineLength:
+  Max: 121

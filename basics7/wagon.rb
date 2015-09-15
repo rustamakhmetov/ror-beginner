@@ -32,8 +32,8 @@ class Wagon
   protected
 
   def validate!
-    raise UserException, "Wagon type can't be nil" if type.nil?
-    raise UserException, "Invalid wagon type" unless [CARGO, PASSANGER].include?(type)
+    fail UserException, "Wagon type can't be nil" if type.nil?
+    fail UserException, 'Invalid wagon type' unless [CARGO, PASSANGER].include?(type)
     true
   end
 end

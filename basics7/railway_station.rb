@@ -26,7 +26,7 @@ class RailwayStation
     register_instance
   end
 
-  def self.all()
+  def self.all
     puts @@stations.join("\n")
   end
 
@@ -44,30 +44,32 @@ class RailwayStation
     @trains.delete(train)
   end
 
-  def get_formatted_trains_by_type(sep="\n")
-    trains_by_type = {Train::CARGO => 0, Train::PASSANGER => 0}
-    @trains.each {|train| trains_by_type[train.type]+=1}
+  def get_formatted_trains_by_type(sep = "\n")
+    trains_by_type = { Train::CARGO => 0, Train::PASSANGER => 0 }
+    @trains.each { |train| trains_by_type[train.type] += 1 }
     s = []
-    trains_by_type.each do |k,v|
+    trains_by_type.each do |k, v|
       s << "#{k.capitalize} - #{v}"
     end
     s.join(sep)
   end
 
-  def get_formatted_trains()
+  def get_formatted_trains
     if @trains.any?
-      s = ""
+      s = ''
       @trains.each_with_index do |train, i|
-        s+= "#{i+1}. Train '#{train}', speed: #{train.speed}, wagons: #{train.wagons.size}\n"
+        s += "#{i + 1}. Train '#{train}', speed: #{train.speed}, wagons: #{train.wagons.size}\n"
       end
     else
       s = "On station '#{self}' not trains"
     end
     s
   end
+
   def trains?
     @trains.any?
   end
+
   def send_train(train)
     if @trains.include?(train)
       @trains.delete train
@@ -77,10 +79,8 @@ class RailwayStation
     end
   end
 
-  def update!(&block)
-    if block_given?
-      @trains.each {|train| yield(train)}
-    end
+  def update!(&_block)
+    @trains.each { |train| yield(train) } if block_given?
   end
 
   def to_s
@@ -90,19 +90,18 @@ class RailwayStation
   protected
 
   def validate!
-    raise UserException, "Railway station name can't be nil" if name.nil?
-    raise UserException, "Railway station name should be at least 3 symbols" if name.length < 3
+    fail UserException, "Railway station name can't be nil" if name.nil?
+    fail UserException, 'Railway station name should be at least 3 symbols' if name.length < 3
     true
   end
-
 end
 
-if __FILE__== $0
-  r1 = RailwayStation.new("M12")
-  r2 = RailwayStation.new("M24")
-  r3 = RailwayStation.new("M34")
+if __FILE__ == $PROGRAM_NAME
+  r1 = RailwayStation.new('M12')
+  r2 = RailwayStation.new('M24')
+  r3 = RailwayStation.new('M34')
   RailwayStation.all
-  r1 << Train.new(Train::PASSANGER, "234-56")
-  r1 << Train.new(Train::CARGO, "2r4-56")
-  r1.update! {|x| puts x}
+  r1 << Train.new(Train::PASSANGER, '234-56')
+  r1 << Train.new(Train::CARGO, '2r4-56')
+  r1.update! { |x| puts x }
 end

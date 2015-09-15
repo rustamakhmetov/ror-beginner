@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-#Маршрут:
+# Маршрут:
 # Имеет начальную и конечную станцию, а также список промежуточных станций
 # Может добавлять станцию в список
 # Может удалять станцию из списка
@@ -14,46 +14,44 @@ class Route
   def initialize(stations)
     @stations = stations
   end
+
   def +(station)
-    raise UserException, "Invalid station type" unless station.instance_of?(RailwayStation)
+    fail UserException, 'Invalid station type' unless station.instance_of?(RailwayStation)
     @stations << station unless @stations.include?(station)
     self
   end
+
   def -(station)
     @stations.delete(station)
     self
   end
+
   def first
     @stations.first
   end
+
   def last
     @stations.last
   end
+
   def next(station)
-    if last!=station
-      @stations[@stations.index(station)+1]
-    else
-      nil
-    end
+    @stations[@stations.index(station) + 1] if last != station
   end
+
   def prev(station)
-    if first!=station
-      @stations[@stations.index(station)-1]
-    else
-      nil
-    end
+    @stations[@stations.index(station) - 1] if first != station
   end
+
   def to_s
     s = []
-    @stations.each_with_index { |station, i| s << "#{i+1}. #{station}"}
+    @stations.each_with_index { |station, i| s << "#{i + 1}. #{station}" }
     s.join("\n")
   end
-
 end
 
-if __FILE__==$0
+if __FILE__ == $PROGRAM_NAME
   r1 = Route.new([])
-  r1 += RailwayStation.new("M34")
+  r1 += RailwayStation.new('M34')
   r1 += FalseClass
 
 end
