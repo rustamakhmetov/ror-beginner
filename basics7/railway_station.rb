@@ -36,12 +36,12 @@ class RailwayStation
     false
   end
 
-  def <<(train)
-    @trains << train unless @trains.include?(train)
+  def <<(other)
+    @trains << other unless @trains.include?(other)
   end
 
-  def >>(train)
-    @trains.delete(train)
+  def >>(other)
+    @trains.delete(other)
   end
 
   def get_formatted_trains_by_type(sep = "\n")
@@ -54,7 +54,7 @@ class RailwayStation
     s.join(sep)
   end
 
-  def get_formatted_trains
+  def formatted_trains
     if @trains.any?
       s = ''
       @trains.each_with_index do |train, i|
@@ -104,4 +104,5 @@ if __FILE__ == $PROGRAM_NAME
   r1 << Train.new(Train::PASSANGER, '234-56')
   r1 << Train.new(Train::CARGO, '2r4-56')
   r1.update! { |x| puts x }
+  puts r2, r3
 end

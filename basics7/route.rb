@@ -15,14 +15,14 @@ class Route
     @stations = stations
   end
 
-  def +(station)
-    fail UserException, 'Invalid station type' unless station.instance_of?(RailwayStation)
-    @stations << station unless @stations.include?(station)
+  def +(other)
+    fail UserException, 'Invalid station type' unless other.instance_of?(RailwayStation)
+    @stations << other unless @stations.include?(other)
     self
   end
 
-  def -(station)
-    @stations.delete(station)
+  def -(other)
+    @stations.delete(other)
     self
   end
 
@@ -53,5 +53,5 @@ if __FILE__ == $PROGRAM_NAME
   r1 = Route.new([])
   r1 += RailwayStation.new('M34')
   r1 += FalseClass
-
+  puts r1
 end

@@ -12,6 +12,7 @@ Style/Documentation:
     - 'route.rb'
     - 'train.rb'
     - 'wagon.rb'
+    - 'utils.rb'
 
 # Offense count: 23
 Style/AsciiComments:
