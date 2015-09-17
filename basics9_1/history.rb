@@ -14,14 +14,14 @@ module History
           value = instance_variable_get(attrs_name)
           value[name] ||= []
           value[name] << argument
+          instance_variable_set "@#{name}", argument
         end
         define_method(name) do
-          history = send("#{name}_history")
-          return history.last unless history.nil?
+          instance_variable_get("@#{name}")
         end
         define_method("#{name}_history") do
           value = instance_variable_get(attrs_name)
-          return nil if value.nil? || value[name].nil?
+          return [] if value.nil? || value[name].nil?
           value[name]
         end
       end
