@@ -21,6 +21,7 @@ require_relative 'cargo_wagon'
 require_relative 'manufacturer'
 require_relative 'instance_counter'
 require_relative 'user_exception'
+require_relative 'validation'
 
 class Train
   CARGO = :cargo
@@ -29,9 +30,13 @@ class Train
 
   include InstanceCounter
   include Manufacturer
+  include Validation
 
   attr_accessor :speed
   attr_reader :wagons, :type, :route, :station
+
+  validate :type, :type, Symbol, 'Invalid train type'
+  validate :number, :format, NUMBER_FORMAT, 'Train number has invalid format'
 
   @@trains = {}
 
@@ -119,20 +124,22 @@ class Train
     "#{@type.to_s.capitalize} N#{@number} (#{@wagons.size} wag.)"
   end
 
-  protected
+  #protected
 
-  def validate!
-    fail UserException, "Train type can't be nil" if @type.nil?
-    fail UserException, 'Invalid train type' unless [CARGO, PASSANGER].include?(@type)
-    fail UserException, "Train number can't be nil" if @number.nil?
-    fail UserException, 'Train number has invalid format' if @number !~ NUMBER_FORMAT
-    true
-  end
+  #def validate!
+  #  validate!
+    #fail UserException, "Train type can't be nil" if @type.nil?
+    #fail UserException, 'Invalid train type' unless [CARGO, PASSANGER].include?(@type)
+    #fail UserException, "Train number can't be nil" if @number.nil?
+    #fail UserException, 'Train number has invalid format' if @number !~ NUMBER_FORMAT
+  #  true
+  #end
 end
 
 if __FILE__ == $PROGRAM_NAME
   begin
-    # t0 = Train.new(:CARGO, "a33Z-45")
+    #t0 = Train.new(:CARGO, "a33Z-45")
+    t1 = Train.new(Train, 'a3Z-45')
     t1 = Train.new(Train::CARGO, 'a3Z-45')
     t1.manufacturer = 'R1'
     t1.add_wagon(CargoWagon.new)

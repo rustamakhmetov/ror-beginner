@@ -19,6 +19,7 @@ module Validation
       self.class.instance_variable_get('@validates').each do |name, args|
         send("validate_#{args[0]}", name, *args[1, args.size])
       end
+      true
     end
 
     def valid?
@@ -30,19 +31,19 @@ module Validation
 
     private
 
-    def validate_presence(name)
+    def validate_presence(name, message='Argument is empty string')
       value = instance_variable_get("@#{name}")
-      fail ArgumentError, 'Argument is empty string' if value.nil? || value.empty?
+      fail ArgumentError, message if value.nil? || value.empty?
     end
 
-    def validate_format(name, format)
+    def validate_format(name, format, message='Invalid format')
       value = instance_variable_get("@#{name}")
-      fail ArgumentError, 'Invalid format' unless value =~ format
+      fail ArgumentError, message unless value =~ format
     end
 
-    def validate_type(name, type)
+    def validate_type(name, type, message='Invalid type')
       value = instance_variable_get("@#{name}")
-      fail ArgumentError, 'Invalid type' unless value.instance_of? type
+      fail ArgumentError, message unless value.instance_of? type
     end
   end
 end

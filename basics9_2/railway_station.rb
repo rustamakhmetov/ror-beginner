@@ -10,11 +10,15 @@
 require_relative 'train'
 require_relative 'instance_counter'
 require_relative 'user_exception'
+require_relative 'validation'
 
 class RailwayStation
   attr_reader :name
 
   include InstanceCounter
+  include Validation
+
+  validate :name, :presence, 'Railway station name is empty'
 
   @@stations = []
 
@@ -86,17 +90,10 @@ class RailwayStation
   def to_s
     @name
   end
-
-  protected
-
-  def validate!
-    fail UserException, "Railway station name can't be nil" if name.nil?
-    fail UserException, 'Railway station name should be at least 3 symbols' if name.length < 3
-    true
-  end
 end
 
 if __FILE__ == $PROGRAM_NAME
+  r0 = RailwayStation.new("")
   r1 = RailwayStation.new('M12')
   r2 = RailwayStation.new('M24')
   r3 = RailwayStation.new('M34')
