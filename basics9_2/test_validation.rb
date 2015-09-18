@@ -17,20 +17,20 @@ if __FILE__ == $PROGRAM_NAME
   t.name = 'test'
   t.number = 'A-Z'
   t.station = RailwayStation.new('RT1')
-  puts t.valid?
+  puts t.valid? ? "OK" : "BAD"
 
   t.name = ''
   t.number = 'A-Z'
   t.station = RailwayStation.new('RT1')
-  puts t.valid?
+  puts !t.valid? ? "OK" : "BAD"
 
   t.name = 'test'
   t.number = 'A'
   t.station = RailwayStation.new('RT1')
-  puts t.valid?
+  puts !t.valid? ? "OK" : "BAD"
 
   t.name = 'test'
   t.number = 'A-Z'
   t.station = Class.new
-  puts t.valid?
+  puts !t.valid? ? "OK" : "BAD"
 end
